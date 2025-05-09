@@ -2,10 +2,8 @@ package com.example.bookmanagement.controller;
 
 import com.example.bookmanagement.dto.request.BookRequestDto;
 import com.example.bookmanagement.dto.response.BookResponseDto;
-import com.example.bookmanagement.entity.Book;
 import com.example.bookmanagement.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,35 +16,33 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping
-    public ResponseEntity<BookResponseDto> create(@RequestBody BookRequestDto dto) {
-        return ResponseEntity.ok(bookService.createBook(dto));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<BookResponseDto>> getAll() {
-        return ResponseEntity.ok(bookService.getAllBooks());
+    public BookResponseDto saveBook(@RequestBody BookRequestDto dto) {
+        return bookService.saveBook(dto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookResponseDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(bookService.getBookById(id));
+    public BookResponseDto getBookById(@PathVariable Long id) {
+        return bookService.findBookById(id);
     }
-
-    @GetMapping("/by-author")
-    public List<BookResponseDto> getByAuthor(@RequestParam String author) {
-        return bookService.getBooksByAuthor(author);
-    }
-
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponseDto> update(@PathVariable Long id, @RequestBody BookRequestDto dto) {
-        return ResponseEntity.ok(bookService.updateBookById(id, dto));
+    public BookResponseDto updateBook(@PathVariable Long id, @RequestBody BookRequestDto dto) {
+        return bookService.updateBook(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
-        return ResponseEntity.noContent().build(); // 204 - No Content
+    }
+
+    @GetMapping("/all")
+    public List<BookResponseDto> getAllBooks() {
+        return bookService.findAllBooks();
+    }
+
+    @GetMapping("/author")
+    public List<BookResponseDto> getBooksByAuthor(@RequestParam String name) {
+        return bookService.getBooksByAuthor(name);
     }
 
 }

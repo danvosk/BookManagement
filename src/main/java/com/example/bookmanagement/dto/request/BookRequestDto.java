@@ -10,5 +10,8 @@ import lombok.*;
 public class BookRequestDto {
     private String title;
     private String author;
-    private int publicationYear;
+    private Integer page;
+    private Long shopId;
+    private Long publisherId;
+    private Long categoryId;
 }
